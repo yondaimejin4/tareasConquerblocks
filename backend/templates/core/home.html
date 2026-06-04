@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <p class="brand">ALPRO TECHNOLOGY SPA</p>
+    <h1>Servicios tecnologicos, innovacion digital y soluciones informaticas</h1>
+    <p>
+      Ayudamos a empresas a modernizar procesos, digitalizar operaciones y construir
+      productos web seguros y escalables. Esta landing Django complementa la version React
+      del Proyecto Final de Master Full Stack.
+    </p>
+    <div class="hero-actions">
+      <a class="btn" href="/admin/">Panel administrativo</a>
+      <a class="btn btn-outline" href="/accounts/login/">Iniciar sesion</a>
+    </div>
+  </section>
+
+  <section class="stats-inline">
+    <p><strong>{{ all_services_count }}</strong> servicios publicados</p>
+    <p><strong>{{ leads_count }}</strong> solicitudes recibidas</p>
+  </section>
+
+  <section>
+    <h2>Servicios destacados</h2>
+    <div class="services-grid">
+      {% for service in featured_services %}
+        <article class="card">
+          <span class="badge">Destacado</span>
+          <h3>{{ service.title }}</h3>
+          <p>{{ service.short_description }}</p>
+        </article>
+      {% empty %}
+        <article class="card">
+          <h3>Configura tu catalogo</h3>
+          <p>
+            Ejecuta <code>python manage.py seed_demo</code> o crea servicios desde el admin.
+          </p>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section>
+    <h2>Integracion con React</h2>
+    <p>
+      La aplicacion React consume la API REST en <code>/api/services/</code> y
+      <code>/api/contact/</code> para mostrar datos en tiempo real y registrar leads comerciales.
+    </p>
+  </section>
+{% endblock %}

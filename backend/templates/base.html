@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ALPRO TECHNOLOGY SPA</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        color: #1d1d1f;
+        background: #f8fafc;
+      }
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      .hero {
+        padding: 40px 0 24px;
+        background: linear-gradient(135deg, #eff6ff, #f8fafc);
+        border-radius: 12px;
+        padding: 32px;
+        margin-bottom: 24px;
+      }
+      .brand {
+        color: #0b5cff;
+        font-weight: bold;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+      }
+      .services-grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 16px;
+      }
+      .badge {
+        display: inline-block;
+        background: #dbeafe;
+        color: #1d4ed8;
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        margin-bottom: 8px;
+      }
+      .btn {
+        background: #0b5cff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 16px;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn-outline {
+        background: white;
+        color: #0b5cff;
+        border: 1px solid #93c5fd;
+      }
+      .stats-inline {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+      code {
+        background: #f3f4f6;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+      footer {
+        margin-top: 48px;
+        font-size: 14px;
+        color: #6b7280;
+        border-top: 1px solid #e5e7eb;
+        padding-top: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      {% block content %}{% endblock %}
+      <footer>
+        <p>ALPRO TECHNOLOGY SPA — Servicios tecnologicos e innovacion digital.</p>
+        <p>Proyecto Final Master Full Stack · Django + React</p>
+      </footer>
+    </main>
+  </body>
+</html>

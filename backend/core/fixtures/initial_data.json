@@ -1,0 +1,68 @@
+[
+  {
+    "model": "core.service",
+    "pk": 1,
+    "fields": {
+      "title": "Desarrollo web a medida",
+      "short_description": "Sitios y aplicaciones web escalables con React y Django.",
+      "details": "Diseno UX, desarrollo frontend y backend, despliegue en la nube y mantenimiento evolutivo para empresas que necesitan digitalizar su operacion comercial.",
+      "is_featured": true,
+      "created_at": "2026-01-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 2,
+    "fields": {
+      "title": "Automatizacion de procesos",
+      "short_description": "Integracion de sistemas y flujos automaticos para reducir tareas manuales.",
+      "details": "Conectamos CRM, hojas de calculo, correo y APIs internas para eliminar reprocesos, errores humanos y tiempos muertos en equipos administrativos y comerciales.",
+      "is_featured": true,
+      "created_at": "2026-01-16T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 3,
+    "fields": {
+      "title": "Consultoria tecnologica",
+      "short_description": "Diagnostico, roadmap digital y acompanamiento estrategico.",
+      "details": "Evaluamos madurez digital, priorizamos iniciativas con ROI claro y definimos arquitectura segura alineada al tamano y presupuesto de cada organizacion.",
+      "is_featured": true,
+      "created_at": "2026-01-17T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 4,
+    "fields": {
+      "title": "Ciberseguridad basica",
+      "short_description": "Hardening, backups y buenas practicas para pymes.",
+      "details": "Revision de accesos, politicas de contrasenas, copias de seguridad y recomendaciones de HTTPS y monitorizacion para reducir riesgos operativos.",
+      "is_featured": false,
+      "created_at": "2026-01-18T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 5,
+    "fields": {
+      "title": "Mantenimiento y soporte IT",
+      "short_description": "Soporte remoto, actualizaciones y monitorizacion preventiva.",
+      "details": "Planes mensuales de soporte para infraestructura, correo corporativo, servidores y aplicaciones criticas del negocio.",
+      "is_featured": false,
+      "created_at": "2026-01-19T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 6,
+    "fields": {
+      "title": "Formacion para equipos",
+      "short_description": "Talleres practicos en herramientas digitales y productividad.",
+      "details": "Capacitacion en ofimatica avanzada, seguridad, uso de CRM y buenas practicas de desarrollo para equipos no tecnicos y perfiles mixtos.",
+      "is_featured": false,
+      "created_at": "2026-01-20T10:00:00Z"
+    }
+  }
+]
