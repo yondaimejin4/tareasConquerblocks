@@ -62,11 +62,11 @@ Plataforma web **ALPRO TECHNOLOGY SPA** con:
 
 | Rol | Acciones |
 |-----|----------|
-| **Visitante** | Ver servicios (web Django y React), enviar formulario de contacto |
-| **Administrador** | Login en `/admin/`, CRUD de `Service` y `ContactLead`, marcar servicios destacados |
-| **Staff (login web)** | Acceso a `/accounts/login/` para flujos de autenticacion Django (panel admin) |
+| **Visitante** | Ver el catalogo en React, enviar el formulario de consultoria |
+| **Cliente** | Registrarse o usar una cuenta creada por el admin, iniciar sesion en `/portal/login`, crear solicitudes, enviar aportes e ideas y consultar estado, pago y comentarios |
+| **Administrador** | Entrar en `/admin/`, crear usuarios cliente, revisar solicitudes y aportes, actualizar estado del proyecto, comentario visible y estado de pago |
 
-No se implementa registro publico de usuarios finales para mantener el MVP acotado al alcance del PFM.
+El portal y el admin usan sesiones distintas para que una pestaña de administracion no contamine las solicitudes del cliente.
 
 ---
 
@@ -88,16 +88,24 @@ No se implementa registro publico de usuarios finales para mantener el MVP acota
 
 **Exito:** HTTP 201 y mensaje de confirmacion. **Error:** email invalido → 400; red → mensaje al usuario.
 
-### CU-03: Gestionar leads (Administrador)
+### CU-03: Seguimiento de una solicitud (Cliente)
 
-1. Inicia sesion en `/admin/`.
-2. Revisa listado de `ContactLead` con busqueda y jerarquia por fecha.
-3. Contacta al cliente por canal externo.
+1. Inicia sesion en `/portal/login`.
+2. Crea una solicitud y, en el detalle, agrega un aporte o una imagen.
+3. El registro queda asociado solo a su usuario.
 
-### CU-04: Actualizar catalogo (Administrador)
+**Exito:** la solicitud aparece en "Mis solicitudes". **Error:** sin sesion de portal → 403; solicitud de otro usuario → 404.
 
-1. Crea o edita `Service`, marca `is_featured`.
-2. Los cambios aparecen al instante en API y en React al recargar.
+### CU-04: Actualizar estado y pago (Administrador)
+
+1. Abre la solicitud en Django Admin.
+2. Cambia el estado del proyecto, escribe el comentario para el cliente y ajusta el estado de pago.
+3. El cliente recarga el detalle y ve esos campos. Las notas internas no se exponen en la API.
+
+### CU-05: Actualizar catalogo (Administrador)
+
+1. Crea o edita `Service` y marca `is_featured`.
+2. Los cambios aparecen en la API y en React al recargar.
 
 ---
 
@@ -105,9 +113,10 @@ No se implementa registro publico de usuarios finales para mantener el MVP acota
 
 | Medida | Implementacion |
 |--------|----------------|
-| Autenticacion | `django.contrib.auth` + admin protegido |
-| Validacion | Serializers DRF en contacto |
-| CSRF | Middleware activo en vistas Django con formularios |
+| Autenticacion | `django.contrib.auth` en el admin; cookie `portal_sessionid` en el portal |
+| Aislamiento | Cada cliente solo lee y escribe sus `ContactLead` |
+| Validacion | Serializers DRF en contacto, registro, solicitudes y aportes |
+| CSRF | Token en el portal y en el admin; el formulario publico no usa la sesion de staff |
 | XSS | Templates Django con auto-escape; React escapa por defecto |
 | Contrasenas | Hash PBKDF2 (Django) |
 | Secretos | `SECRET_KEY` y flags por variables de entorno |
@@ -120,9 +129,10 @@ No se implementa registro publico de usuarios finales para mantener el MVP acota
 ## 7. Arquitectura
 
 ```
-[Visitante] → [React SPA] ──HTTP JSON──→ [Django + DRF] → [PostgreSQL/SQLite]
-                      ↑                        ↓
-                 [Vite build]            [Django Admin]
+[Visitante / Cliente] → [React SPA] ──HTTP JSON──→ [Django + DRF] → [PostgreSQL/SQLite]
+                              ↑                          ↓
+                         [Vite build]              [Django Admin]
+                         portal_sessionid          sessionid
 ```
 
 ---

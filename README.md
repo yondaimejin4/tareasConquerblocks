@@ -1,72 +1,98 @@
-# ALPRO TECHNOLOGY SPA — Proyecto Final Master Full Stack
+# ALPRO TECHNOLOGY SPA — Proyecto Final Máster Full Stack
 
-Aplicacion web full stack para una empresa de servicios tecnologicos: catalogo de servicios, captacion de leads y panel administrativo.
+Aplicación web full stack para una empresa de servicios tecnológicos: catálogo de servicios, captación de solicitudes, portal de cliente y panel administrativo.
+
+**Arranque local:** `./scripts/dev.sh` → [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
+| Superficie | URL | Acceso |
+|------------|-----|--------|
+| Sitio (React) | http://127.0.0.1:8000/ | Público |
+| Portal cliente | http://127.0.0.1:8000/portal/login | Cuenta de cliente |
+| Administración | http://127.0.0.1:8000/admin/ | `admin` / `Admin123` |
 
 ## Stack
 
-| Capa | Tecnologia |
+| Capa | Tecnología |
 |------|------------|
-| Backend | Django 6, Django REST Framework, SQLite (dev) / PostgreSQL (prod) |
-| Frontend | React 19, Vite 8 |
-| API | REST: `/api/services/`, `/api/services/featured/`, `/api/contact/` |
-| Despliegue | Render (ver `render.yaml` y `docs/DEPLOY.md`) |
+| Backend | Django 6, Django REST Framework, autenticación por sesión |
+| Base de datos | SQLite (desarrollo) / PostgreSQL (producción) |
+| Frontend | React 19, Vite 8, React Router |
+| Servidor | Django sirve la SPA compilada y la API en el mismo origen |
+| Despliegue | Render (`render.yaml`, `build.sh`, [docs/DEPLOY.md](docs/DEPLOY.md)) |
+| Pruebas | `python manage.py test core` |
+
+## Qué resuelve
+
+- El visitante consulta el catálogo real (`GET /api/services/`) y envía una consultoría (`POST /api/contact/`).
+- El cliente entra al portal, crea solicitudes, adjunta ideas o imágenes y ve el estado del proyecto, el pago y los comentarios del equipo.
+- El administrador gestiona usuarios, solicitudes, aportes, estado del proyecto y estado de pago desde Django Admin.
+- Admin y portal usan cookies distintas (`sessionid` y `portal_sessionid`), así que ambas sesiones pueden convivir en el mismo navegador.
 
 ## Estructura
 
 ```
-├── backend/          # Proyecto Django (models, API, templates, admin)
-├── frontend/         # SPA React
-├── docs/             # Memoria PFM y guia de despliegue
+├── backend/          # Django: modelos, API, admin, plantillas, tests
+├── frontend/         # React: landing y portal cliente
+├── docs/             # Memoria técnica y guía de despliegue
+├── scripts/          # dev.sh y verificar.sh
 ├── requirements.txt
-├── build.sh          # Build para Render
-└── render.yaml       # Blueprint de despliegue
+├── build.sh
+└── render.yaml
 ```
 
-## Requisitos
+## Instalación
 
-- Python 3.13+
-- Node.js 20+
-
-## Instalacion local
-
-### Backend
+Requisitos: Python 3.13+ y Node.js 20+.
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # opcional, ajustar variables
-
-cd backend
-python manage.py migrate
-python manage.py seed_demo
-python manage.py createsuperuser
-python manage.py runserver
-```
-
-API y admin: `http://127.0.0.1:8000` · Admin: `http://127.0.0.1:8000/admin/`
-
-### Frontend
-
-```bash
-cd frontend
 cp .env.example .env
-npm install
-npm run dev
+
+./scripts/dev.sh
 ```
 
-App React: `http://127.0.0.1:5173`
+El script aplica migraciones, carga el catálogo de demostración, crea el administrador, compila React y arranca el servidor en el puerto 8000.
 
-Variable `VITE_API_BASE_URL` debe apuntar al backend (por defecto `http://127.0.0.1:8000`).
+### Desarrollo con recarga del frontend
 
-## Datos de demostracion
+Terminal 1: `cd backend && python manage.py runserver`  
+Terminal 2: `cd frontend && npm install && npm run dev`
+
+Vite hace proxy de `/api` y `/media` hacia el puerto 8000. Deja `VITE_API_BASE_URL` vacío.
+
+## API
+
+| Método | Ruta | Uso |
+|--------|------|-----|
+| GET | `/api/health/` | Estado del servicio |
+| GET | `/api/services/` | Catálogo |
+| GET | `/api/services/featured/` | Destacados |
+| POST | `/api/contact/` | Consultoría pública |
+| POST | `/api/auth/register/` `/login/` `/logout/` | Portal |
+| GET | `/api/auth/me/` | Sesión del portal |
+| GET/POST | `/api/my-requests/` | Solicitudes del cliente autenticado |
+| POST | `/api/my-requests/<id>/contributions/` | Aportes e ideas |
+
+## Roles
+
+| Rol | Puede |
+|-----|--------|
+| Visitante | Ver servicios y enviar el formulario de consultoría |
+| Cliente | Iniciar sesión, ver y crear sus solicitudes, enviar aportes |
+| Administrador | Django Admin: usuarios, catálogo, estados, pagos y comentarios visibles al cliente |
+
+En el admin, **Usuarios → Añadir usuario** crea la cuenta del portal. Cada solicitud muestra los aportes del cliente y permite editar el estado del proyecto, el comentario para el cliente y el estado de pago.
+
+## Datos de demostración
 
 ```bash
 cd backend
-python manage.py seed_demo
+python manage.py seed_demo          # 16 servicios
+python manage.py seed_demo --reset  # recarga el catálogo
+python manage.py seed_admin         # admin / Admin123
 ```
-
-Carga 6 servicios (3 destacados) desde `core/fixtures/initial_data.json`.
 
 ## Tests
 
@@ -76,28 +102,19 @@ cd backend
 python manage.py test core
 ```
 
-## Integracion React + Django (PFM)
-
-- `GET /api/services/` — catalogo completo en React
-- `GET /api/services/featured/` — servicios destacados
-- `POST /api/contact/` — formulario de contacto persistido en `ContactLead`
-
 ## Seguridad
 
-- Autenticacion Django para admin y `/accounts/login/`
-- Validacion DRF en API de contacto
-- CSRF en formularios de plantillas Django
-- `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS` y `CORS_ALLOWED_ORIGINS` por variables de entorno
-- HTTPS recomendado en produccion (Render lo provee)
+- Contraseñas con el hasher de Django (PBKDF2).
+- Validación en serializers de DRF.
+- CSRF en el admin y en las peticiones del portal.
+- El formulario público no reutiliza la sesión del administrador.
+- Secretos y hosts por variables de entorno (`SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`, `CORS_ALLOWED_ORIGINS`).
+- HTTPS en producción mediante el proveedor de despliegue.
 
-## Despliegue
+## Documentación
 
-Instrucciones detalladas en [docs/DEPLOY.md](docs/DEPLOY.md).
-
-## Documentacion academica
-
-Memoria tecnica (borrador para PDF): [docs/pfm-memoria.md](docs/pfm-memoria.md)
+Memoria técnica para el PDF del PFM: [docs/pfm-memoria.md](docs/pfm-memoria.md)
 
 ## Autor
 
-Proyecto Final — Master en Desarrollo Full Stack (ConquerBlocks)
+Proyecto Final — Máster en Desarrollo Full Stack (ConquerBlocks)

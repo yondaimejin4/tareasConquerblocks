@@ -11,6 +11,22 @@
     <title>ALPRO TECHNOLOGY SPA</title>
   </head>
   <body>
+    <script>
+      (function () {
+        history.scrollRestoration = "manual";
+        if (location.hash) {
+          history.replaceState(null, "", location.pathname + location.search);
+        }
+        var goTop = function () {
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+        };
+        goTop();
+        window.addEventListener("pageshow", goTop);
+        window.addEventListener("load", goTop);
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

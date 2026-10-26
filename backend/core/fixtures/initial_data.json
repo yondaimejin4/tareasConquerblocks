@@ -64,5 +64,115 @@
       "is_featured": false,
       "created_at": "2026-01-20T10:00:00Z"
     }
+  },
+  {
+    "model": "core.service",
+    "pk": 7,
+    "fields": {
+      "title": "Comercio electronico",
+      "short_description": "Tiendas online, pasarelas de pago y gestion de inventario.",
+      "details": "Implementamos catalogos, carritos, integracion con medios de pago y paneles de administracion para vender en internet con trazabilidad de pedidos y clientes.",
+      "is_featured": true,
+      "created_at": "2026-01-21T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 8,
+    "fields": {
+      "title": "Cloud y migracion",
+      "short_description": "Despliegue en AWS, Render, Railway y arquitecturas escalables.",
+      "details": "Migracion de servidores locales a la nube, configuracion de entornos, balanceo de carga y optimizacion de costos con monitoreo continuo.",
+      "is_featured": true,
+      "created_at": "2026-01-22T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 9,
+    "fields": {
+      "title": "Apps moviles",
+      "short_description": "Aplicaciones hibridas y PWAs conectadas a tu backend.",
+      "details": "Desarrollo de experiencias moviles que consumen APIs existentes, notificaciones push y sincronizacion offline para equipos en campo.",
+      "is_featured": false,
+      "created_at": "2026-01-23T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 10,
+    "fields": {
+      "title": "Business Intelligence",
+      "short_description": "Dashboards, reportes y analitica de datos de negocio.",
+      "details": "Centralizamos datos de ventas, operaciones y marketing en tableros visuales para decisiones basadas en metricas reales y tendencias.",
+      "is_featured": false,
+      "created_at": "2026-01-24T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 11,
+    "fields": {
+      "title": "Diseno UX/UI",
+      "short_description": "Interfaces modernas, accesibles y alineadas a tu marca.",
+      "details": "Wireframes, prototipos interactivos y sistemas de diseno coherentes que mejoran conversion y satisfaccion del usuario final.",
+      "is_featured": false,
+      "created_at": "2026-01-25T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 12,
+    "fields": {
+      "title": "DevOps y CI/CD",
+      "short_description": "Pipelines automaticos de pruebas y despliegue continuo.",
+      "details": "Configuracion de GitHub Actions, integracion de tests, entornos staging/produccion y rollback seguro para releases frecuentes.",
+      "is_featured": false,
+      "created_at": "2026-01-26T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 13,
+    "fields": {
+      "title": "Mesa de ayuda IT",
+      "short_description": "Helpdesk, tickets y SLA para incidencias tecnologicas.",
+      "details": "Portal de solicitudes, categorizacion de incidencias, tiempos de respuesta acordados y base de conocimiento para usuarios internos.",
+      "is_featured": false,
+      "created_at": "2026-01-27T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 14,
+    "fields": {
+      "title": "Auditoria de infraestructura",
+      "short_description": "Revision de servidores, redes y politicas de acceso.",
+      "details": "Informe detallado de riesgos, recomendaciones priorizadas y plan de remediacion para cumplir estandares minimos de operacion segura.",
+      "is_featured": false,
+      "created_at": "2026-01-28T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 15,
+    "fields": {
+      "title": "Marketing digital tecnico",
+      "short_description": "SEO tecnico, analitica web y optimizacion de conversion.",
+      "details": "Implementacion de etiquetado, sitemaps, rendimiento web y landings orientadas a captacion de leads medibles.",
+      "is_featured": false,
+      "created_at": "2026-01-29T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 16,
+    "fields": {
+      "title": "Integracion de IA aplicada",
+      "short_description": "Chatbots, asistentes y automatizacion con modelos de lenguaje.",
+      "details": "Soluciones practicas de IA conectadas a tus datos y procesos: atencion al cliente, clasificacion de tickets y generacion de reportes asistida.",
+      "is_featured": false,
+      "created_at": "2026-01-30T10:00:00Z"
+    }
   }
 ]
