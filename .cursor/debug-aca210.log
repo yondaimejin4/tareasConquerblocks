@@ -1,0 +1,6 @@
+{"sessionId":"aca210","location":"api/client.js:fetchServices","message":"fetch start","data":{"servicesUrl":"/api/services/","featuredUrl":"/api/services/featured/","API_BASE_URL":""},"timestamp":1780545824634,"hypothesisId":"H1"}
+{"sessionId":"aca210","location":"api/client.js:fetchServices","message":"fetch ok","data":{"count":16,"featured":5},"timestamp":1780545824713,"hypothesisId":"H1"}
+{"sessionId":"aca210","location":"api/client.js:fetchServices","message":"fetch start","data":{"servicesUrl":"/api/services/","featuredUrl":"/api/services/featured/","API_BASE_URL":""},"timestamp":1780545867830,"hypothesisId":"H1"}
+{"sessionId":"aca210","location":"api/client.js:fetchServices","message":"fetch ok","data":{"count":16,"featured":5},"timestamp":1780545868115,"hypothesisId":"H1"}
+{"sessionId":"aca210","location":"api/client.js:fetchServices","message":"fetch start","data":{"servicesUrl":"/api/services/","featuredUrl":"/api/services/featured/","API_BASE_URL":""},"timestamp":1780546024022,"hypothesisId":"H1"}
+{"sessionId":"aca210","location":"api/client.js:fetchServices","message":"fetch ok","data":{"count":16,"featured":5},"timestamp":1780546024088,"hypothesisId":"H1"}
