@@ -113,7 +113,11 @@ python manage.py test core
 
 ## Documentación
 
-Memoria técnica para el PDF del PFM: [docs/pfm-memoria.md](docs/pfm-memoria.md)
+Memoria del PFM (PDF con capturas): [docs/Memoria_PFM_ALPRO.pdf](docs/Memoria_PFM_ALPRO.pdf)
+
+Borrador en Markdown: [docs/pfm-memoria.md](docs/pfm-memoria.md)
+
+Usuarios de prueba: administrador `admin` / `Admin123` · cliente `cliente_demo` / `Cliente123`
 
 ## Autor
 
