@@ -11,4 +11,5 @@ backend/media/
 frontend/node_modules/
 frontend/dist/
 .DS_Store
+docs/video-build/
 *.log

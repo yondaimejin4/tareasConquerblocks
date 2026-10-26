@@ -109,10 +109,15 @@ def build():
     pdf.multi_cell(
         0,
         6,
-        "Aplicación pública: pendiente de publicar en Render o Railway. "
-        "El código y render.yaml ya están preparados.",
+        "Aplicación pública: GitHub no ejecuta Django. La URL gratuita del material es el repositorio. "
+        "La demostración funcional está en el vídeo y se reproduce en local con ./scripts/dev.sh.",
     )
-    pdf.multi_cell(0, 6, "Vídeo: guion en el apartado 12. La grabación la hace el alumno.")
+    pdf.multi_cell(
+        0,
+        6,
+        "Vídeo (voz masculina, menos de 5 minutos): "
+        "https://github.com/yondaimejin4/tareasConquerblocks/blob/main/proyecto%20final%20master%20full%20stack/docs/video-defensa-pfm.mp4",
+    )
     pdf.ln(4)
     pdf.set_font("Arial", "B", 12)
     pdf.multi_cell(0, 6, "Usuarios de prueba")
@@ -388,8 +393,8 @@ def build():
     pdf.b("React muestra datos reales de la API: hecho en local. Hay que repetirlo en la URL pública.")
     pdf.b("Tests automáticos: 10, en verde.")
     pdf.b("Memoria en PDF con texto seleccionable y los apartados del punto 3: este archivo.")
-    pdf.b("URL HTTPS con DEBUG desactivado: pendiente de la cuenta de despliegue del alumno.")
-    pdf.b("Vídeo de menos de 5 minutos: pendiente de grabar con el guion del apartado 12.")
+    pdf.b("Vídeo de menos de 5 minutos, con voz masculina y enlace público en GitHub: docs/video-defensa-pfm.mp4.")
+    pdf.b("URL HTTPS de la aplicación en marcha: GitHub Pages solo sirve archivos estáticos y no puede ejecutar Django, la base de datos ni el admin. La guía pide un servidor. Eso no cabe en una URL gratuita de GitHub.")
     pdf.b("En Academia hay que pegar repo, URL, este PDF, el vídeo y las credenciales admin / Admin123 y cliente_demo / Cliente123.")
     pdf.p(
         "Nombre y correo de la portada: si Academia tiene otro nombre distinto de la cuenta yondaimejin4, "
