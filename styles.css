@@ -1,0 +1,373 @@
+:root {
+  --bg-left: #f7f7f7;
+  --bg-right: #c0e8df;
+  --primary: #28436f;
+  --primary-hover: #1d3358;
+  --text-main: #273f68;
+  --text-muted: #8d919d;
+  --mint: #a7dbce;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f2f2f2;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-main);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #1d3358;
+  outline-offset: 3px;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 640px;
+  margin: 0 auto;
+  background: var(--bg-left);
+  overflow: hidden;
+}
+
+.hero__right-bg {
+  position: absolute;
+  inset: 0 0 auto 66.93%;
+  height: 77.7%;
+  background: var(--bg-right);
+}
+
+.hero__right-bg::before {
+  content: "";
+  position: absolute;
+  width: min(29.5vw, 567px);
+  aspect-ratio: 1;
+  top: 5.5%;
+  left: -86px;
+  background: url("./assets/emblem-spa.svg") center/contain no-repeat;
+  opacity: 0.12;
+}
+
+.hero__right-bg::after {
+  content: none;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  max-width: 1260px;
+  margin: 0 auto;
+  min-height: 640px;
+  padding: 18px 58px 0;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  font-size: 37px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--primary);
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.86;
+}
+
+.logo span {
+  color: #a2d9c9;
+}
+
+.nav__links {
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #32476b;
+  transition: color 0.2s ease;
+}
+
+.nav__chevron {
+  width: 10px;
+  height: 10px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+  transform: translateY(1px);
+}
+
+.nav__links a:hover {
+  color: var(--primary-hover);
+}
+
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-btn {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.icon-btn svg {
+  width: 13px;
+  height: 13px;
+  fill: var(--primary);
+}
+
+.icon-btn:hover {
+  background: rgba(40, 67, 111, 0.1);
+  transform: translateY(-1px);
+}
+
+.sign-in {
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: var(--primary);
+  margin: 0 8px;
+  transition: opacity 0.2s ease;
+}
+
+.sign-in:hover {
+  opacity: 0.75;
+}
+
+.sign-up {
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.sign-up:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.hero__content {
+  width: 55%;
+  padding-top: 64px;
+}
+
+.intro h1 {
+  margin: 0;
+  max-width: 620px;
+  color: var(--text-main);
+  font-size: clamp(42px, 4.3vw, 62px);
+  line-height: 1.14;
+  letter-spacing: -0.8px;
+}
+
+.intro p {
+  margin: 22px 0 30px;
+  max-width: 560px;
+  color: var(--text-muted);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-primary {
+  min-width: 128px;
+  height: 42px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 14px;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.btn-video {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--primary);
+  transition: color 0.2s ease;
+}
+
+.btn-video:hover {
+  color: var(--primary-hover);
+}
+
+.play-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 8px 18px rgba(29, 51, 88, 0.12);
+  position: relative;
+}
+
+.play-icon::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  transform: translate(-50%, -50%);
+  border-style: solid;
+  border-width: 5px 0 5px 8px;
+  border-color: transparent transparent transparent var(--primary);
+}
+
+.stats {
+  margin-top: 38px;
+  display: flex;
+  width: 100%;
+  max-width: 560px;
+  background: rgba(255, 255, 255, 0.74);
+  border-radius: 12px;
+  padding: 16px 20px 14px;
+  justify-content: space-between;
+}
+
+.stat-card {
+  min-width: 156px;
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.stat-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+.stat-card h2 {
+  margin: 10px 0 4px;
+  font-size: 39px;
+  line-height: 1;
+  color: #2b426d;
+}
+
+.stat-card p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #8f939f;
+}
+
+.hero__visual {
+  position: absolute;
+  right: 6px;
+  bottom: 0;
+  width: clamp(560px, 52vw, 760px);
+  height: clamp(620px, 96vh, 900px);
+}
+
+.hero__visual img {
+  position: absolute;
+  right: -12px;
+  bottom: 0;
+  width: 130%;
+  max-width: none;
+}
+
+.quote {
+  position: absolute;
+  width: 248px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.67);
+  padding: 11px 14px 12px;
+  color: #1d2f4b;
+  box-shadow: 0 10px 25px rgba(30, 47, 77, 0.08);
+}
+
+.quote::before {
+  content: "\201C";
+  display: block;
+  font-size: 37px;
+  line-height: 0.6;
+  color: #2d4974;
+  margin-bottom: -4px;
+}
+
+.quote p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.48;
+}
+
+.quote strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #2d4974;
+}
+
+.quote--top {
+  top: 188px;
+  right: 22px;
+}
+
+.quote--bottom {
+  width: 300px;
+  right: 96px;
+  bottom: 50px;
+}
