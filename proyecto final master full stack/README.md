@@ -2,6 +2,8 @@
 
 Aplicación web full stack para una empresa de servicios tecnológicos: catálogo de servicios, formulario de contacto, portal del cliente y panel administrativo.
 
+**Aplicación pública:** [https://alpro-pfm.onrender.com](https://alpro-pfm.onrender.com)
+
 **Arranque local:** `./scripts/dev.sh` → [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 | Superficie | URL | Acceso |
@@ -18,7 +20,7 @@ Aplicación web full stack para una empresa de servicios tecnológicos: catálog
 | Base de datos | SQLite (desarrollo) / PostgreSQL (producción) |
 | Frontend | React 19, Vite 8, React Router |
 | Servidor | Django sirve la SPA compilada y la API en el mismo origen |
-| Despliegue | Gratis: PythonAnywhere ([docs/DEPLOY_PYTHONANYWHERE.md](docs/DEPLOY_PYTHONANYWHERE.md)). Alternativa: Render ([docs/DEPLOY.md](docs/DEPLOY.md)) |
+| Despliegue | [https://alpro-pfm.onrender.com](https://alpro-pfm.onrender.com) (Render, plan gratuito) |
 | Pruebas | `python manage.py test core` |
 
 ## Qué resuelve

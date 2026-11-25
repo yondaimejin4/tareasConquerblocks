@@ -12,6 +12,11 @@ CAP = DOCS / "capturas"
 OUT = DOCS / "Memoria_PFM_ALPRO.pdf"
 REPO = "https://github.com/yondaimejin4/tareasConquerblocks"
 LOCAL = "http://127.0.0.1:8000/"
+PUBLIC = "https://alpro-pfm.onrender.com"
+VIDEO = (
+    "https://github.com/yondaimejin4/tareasConquerblocks/blob/main/"
+    "proyecto%20final%20master%20full%20stack/docs/video-defensa-pfm.mp4"
+)
 
 
 class Doc(FPDF):
@@ -106,18 +111,8 @@ def build():
     pdf.multi_cell(0, 6, "Repositorio: " + REPO)
     pdf.multi_cell(0, 6, "Carpeta del proyecto: proyecto final master full stack")
     pdf.multi_cell(0, 6, "Aplicación local: " + LOCAL)
-    pdf.multi_cell(
-        0,
-        6,
-        "Aplicación pública: GitHub no ejecuta Django. La URL gratuita del material es el repositorio. "
-        "La demostración funcional está en el vídeo y se reproduce en local con ./scripts/dev.sh.",
-    )
-    pdf.multi_cell(
-        0,
-        6,
-        "Vídeo (voz masculina, menos de 5 minutos): "
-        "https://github.com/yondaimejin4/tareasConquerblocks/blob/main/proyecto%20final%20master%20full%20stack/docs/video-defensa-pfm.mp4",
-    )
+    pdf.multi_cell(0, 6, "Aplicación pública (HTTPS, DEBUG desactivado): " + PUBLIC)
+    pdf.multi_cell(0, 6, "Vídeo (1 min 55 s, voz masculina, enlace público): " + VIDEO)
     pdf.ln(4)
     pdf.set_font("Arial", "B", 12)
     pdf.multi_cell(0, 6, "Usuarios de prueba")
@@ -165,8 +160,8 @@ def build():
     pdf.h2("Solución")
     pdf.p(
         "Una aplicación web con landing en React que lee el catálogo por API, un formulario de consultoría, "
-        "un portal de cliente y Django Admin. El administrador actualiza el estado del proyecto, el pago y un "
-        "comentario. El cliente lo ve al recargar su solicitud. El pago no se cobra con tarjeta: se registra a mano. "
+        "un portal de cliente y Django Admin. El administrador actualiza el estado del proyecto. "
+        "El cliente lo ve al recargar su solicitud. "
         "Ese límite es deliberado para mantener un MVP coherente."
     )
 
@@ -175,7 +170,7 @@ def build():
         "La herramienta convierte mensajes sueltos en registros. Un visitante completa nombre, correo, empresa "
         "y necesidad, y el servidor valida el correo antes de guardar. El equipo deja de copiar el mismo dato "
         "en una hoja y en el chat. El cliente deja de preguntar por WhatsApp en qué va el trabajo: abre el portal "
-        "y lee el estado, el comentario del equipo y si el pago está pendiente, parcial o saldado."
+        "y lee el estado del proyecto que marcó el administrador."
     )
     pdf.p(
         "Ejemplo concreto. El cliente cliente_demo envía que necesita una web y automatizar el seguimiento. "
@@ -191,9 +186,9 @@ def build():
     pdf.h1("3. Tecnologías y justificación")
     pdf.b("Django 6.0.5. Modelos, migraciones, admin, sesiones y plantillas. Es el backend exigido por el máster.")
     pdf.b("Django REST Framework 3.17.1. La API JSON que consume React, con validación en serializers.")
-    pdf.b("SQLite en local y PostgreSQL en producción mediante dj-database-url 2.3.0 y psycopg2-binary 2.9.10.")
+    pdf.b("SQLite en local y en el plan gratuito de Render. PostgreSQL queda preparado con dj-database-url 2.3.0 y psycopg2-binary 2.9.10 si se define DATABASE_URL.")
     pdf.b("React 19 y React Router 7, empaquetados con Vite 8. La landing y el portal son las vistas que leen la API.")
-    pdf.b("Pillow 11.1.0 para la imagen opcional de un aporte.")
+    pdf.b("Pillow 11.1.0 queda en las dependencias. El alcance publicado no adjunta imágenes.")
     pdf.b("WhiteNoise 6.9.0 y Gunicorn 23.0.0 para estáticos y el proceso de producción.")
     pdf.b("django-cors-headers 4.9.0 por si el frontend y la API se separan en otro origen durante el desarrollo.")
     pdf.b("Git y GitHub. El remoto es el repositorio público indicado en la portada.")
@@ -323,16 +318,17 @@ def build():
         "es cliente_demo / Cliente123."
     )
     pdf.p(
-        "Producción prevista: Render, con PostgreSQL, DEBUG=False, SECRET_KEY generada y ALLOWED_HOSTS del dominio. "
-        "build.sh instala Python, compila el frontend, collectstatic, migrate y seed_demo. El proceso es Gunicorn. "
-        "A la fecha de esta memoria la URL pública todavía no está dada de alta: hace falta la cuenta del alumno en Render "
-        "o Railway para pulsar el despliegue. El archivo render.yaml ya describe el servicio."
+        "Producción: " + PUBLIC + ", en el plan gratuito de Render, con DEBUG=False, SECRET_KEY por entorno "
+        "y ALLOWED_HOSTS=.onrender.com. Gunicorn sirve Django. Al arrancar se aplican las migraciones y se cargan "
+        "los 16 servicios, el administrador y el cliente de prueba. React y la API comparten ese origen HTTPS. "
+        "El plan gratuito duerme tras unos 15 minutos sin visitas y la primera petición tarda cerca de un minuto. "
+        "La base de esa instancia es SQLite y se vuelve a sembrar en cada arranque."
     )
     pdf.p(
         "Pruebas automatizadas: python manage.py test core. En la última ejecución local pasaron 10 tests: "
         "listado y destacados de servicios, alta de contacto, contacto con sesión de admin abierta, correo inválido, "
         "registro y listado propio, aislamiento entre clientes, sesión de admin que no entra en el portal, "
-        "comentario y pago visibles para el cliente, y login de una cuenta creada como en el admin."
+        "el cliente ve el estado que cambia el administrador, y login de una cuenta creada como en el admin."
     )
     pdf.h2("Errores que aparecieron y cómo se cerraron")
     pdf.b("La landing quedaba en blanco por una ruta de CSS incorrecta al separar las páginas. Se corrigió el import.")
@@ -357,11 +353,11 @@ def build():
     pdf.p(
         "No hay pasarela de pago, ni correo transaccional, ni doble factor, ni auditoría formal de dependencias. "
         "El catálogo y los textos de estado están en castellano sin tildes en varios rótulos de interfaz, por consistencia "
-        "con el primer diseño. La URL pública aún no está en línea."
+        "con el primer diseño. En el plan gratuito de Render la base no es permanente: al dormir el servicio se recrea la demo."
     )
     pdf.p(
-        "Más adelante: publicar en Render con HTTPS, aviso por correo al crear una solicitud, pasarela de pago real "
-        "y copias automáticas de PostgreSQL. No amplía el alcance antes de la defensa."
+        "Más adelante: PostgreSQL permanente, aviso por correo al crear una solicitud y pasarela de pago real. "
+        "No amplía el alcance antes de la defensa."
     )
     pdf.p(
         "Conclusión. El proyecto resuelve un problema concreto con un flujo de datos real: React muestra lo que "
@@ -371,17 +367,17 @@ def build():
 
     pdf.h1("12. Guion del vídeo (máximo 5 minutos) y de la defensa")
     pdf.p(
-        "El vídeo lo graba el alumno (Loom, OBS o el móvil) mostrando la pantalla. Enlace sin pedir permiso. "
-        "Texto sugerido, en voz alta:"
+        "El vídeo ya está publicado, dura 1 minuto y 55 segundos y se abre sin permiso: " + VIDEO + " "
+        "Guion de lo que cubre:"
     )
     pdf.b("0:00. Soy el alumno del máster. El problema es que ALPRO recibía encargos por canales sueltos, sin catálogo ni seguimiento.")
     pdf.b("0:40. Esta es la landing. Estos servicios no están escritos en React: salen de GET /api/services/. Lo enseño en la pestaña Red.")
     pdf.b("1:30. Envío una consultoría. Django valida y guarda un ContactLead.")
-    pdf.b("2:10. Entro al portal como cliente_demo. Veo el estado, el pago y el comentario que escribió el admin.")
-    pdf.b("3:10. En /admin/ cambio el estado. Tecnologías: Django 6, DRF, React 19, Vite, SQLite en local y PostgreSQL en producción.")
+    pdf.b("2:10. Entro al portal como cliente_demo y veo el estado de la solicitud.")
+    pdf.b("3:10. En /admin/ está el panel. Tecnologías: Django 6, DRF, React 19, Vite y SQLite. La URL pública es " + PUBLIC + ".")
     pdf.b("4:20. Cierro: el cliente y el admin no comparten sesión, para no mezclar solicitudes.")
     pdf.p(
-        "Defensa de 30 minutos. Tener abiertos la URL (cuando exista), el editor con el servidor local y GitHub. "
+        "Defensa de 30 minutos. Tener abiertos " + PUBLIC + ", el editor y GitHub. "
         "Minutos 0 a 3: problema y usuarios. 3 a 12: demo. 12 a 18: models.py y el fetch de la landing. "
         "18 a 24: las dos cookies y el test que lo demuestra. 24 a 30: seguridad y límites. "
         "Si piden un cambio en directo, conviene un texto visible o un choice de estado, no rehacer la autenticación."
@@ -390,11 +386,11 @@ def build():
     pdf.h1("13. Lista de comprobación de la guía v2")
     pdf.b("Repositorio público con README, dependencias versionadas y sin .env: hecho.")
     pdf.b("Backend Django con modelos relacionados, migraciones, vistas, plantillas (/django/), formularios validados y dos roles: hecho.")
-    pdf.b("React muestra datos reales de la API: hecho en local. Hay que repetirlo en la URL pública.")
+    pdf.b("React muestra datos reales de la API en " + PUBLIC + ": 16 servicios, comprobado en /api/services/.")
     pdf.b("Tests automáticos: 10, en verde.")
     pdf.b("Memoria en PDF con texto seleccionable y los apartados del punto 3: este archivo.")
     pdf.b("Vídeo de menos de 5 minutos, con voz masculina y enlace público en GitHub: docs/video-defensa-pfm.mp4.")
-    pdf.b("URL HTTPS de la aplicación en marcha: GitHub Pages solo sirve archivos estáticos y no puede ejecutar Django, la base de datos ni el admin. La guía pide un servidor. Eso no cabe en una URL gratuita de GitHub.")
+    pdf.b("URL HTTPS con DEBUG desactivado y datos de demostración: " + PUBLIC)
     pdf.b("En Academia hay que pegar repo, URL, este PDF, el vídeo y las credenciales admin / Admin123 y cliente_demo / Cliente123.")
     pdf.p(
         "Nombre y correo de la portada: si Academia tiene otro nombre distinto de la cuenta yondaimejin4, "
@@ -499,7 +495,7 @@ def build():
     pdf.p("test_register_and_list_own_requests registra un usuario por la API, crea una solicitud y comprueba que el listado devuelve solo esa, en estado recibida.")
     pdf.p("test_client_cannot_see_other_users_request crea dos clientes y comprueba que el detalle ajeno responde 404.")
     pdf.p("test_admin_django_session_does_not_bleed_into_portal inicia sesión de admin al estilo Django y comprueba que /api/auth/me/ del portal sigue anónimo hasta que entra el cliente. La solicitud creada después queda con el id del cliente, no del admin.")
-    pdf.p("test_client_sees_admin_team_comment_and_contributions escribe estado, pago, pendiente y comentario, añade un aporte y comprueba que el detalle del cliente trae esos campos y el texto del aporte.")
+    pdf.p("test_client_sees_status_updated_by_admin cambia el estado en la base y comprueba que el detalle del cliente trae in_progress, sin campos de pago ni de aportes.")
     pdf.p("test_admin_created_client_can_login crea el usuario como lo haría el alta del admin y entra por /api/auth/login/.")
 
     pdf.h1("19. Preguntas de defensa con la respuesta ya dicha en voz alta")
@@ -512,14 +508,14 @@ def build():
     pdf.h2("¿El administrador puede crear el cliente?")
     pdf.p("Sí. En Usuarios, Añadir usuario, se piden usuario, correo y contraseña dos veces. save pone is_staff e is_superuser en falso. Esa persona entra en el portal con esas credenciales. En la ficha del usuario se listan sus solicitudes.")
     pdf.h2("¿Qué no debo afirmar en la defensa?")
-    pdf.p("No debo decir que el pago está integrado con un banco, que el sitio ya está en HTTPS si todavía no se ha publicado, ni que el formulario público identifica al visitante. Si no hay sesión de portal, el lead queda anónimo y el equipo lo ve igual en Admin.")
+    pdf.p("No debo decir que el pago está integrado con un banco ni que el formulario público identifica al visitante. Si no hay sesión de portal, el lead queda anónimo y el equipo lo ve igual en Admin. Sí puedo decir que la aplicación pública es " + PUBLIC + ".")
 
     pdf.h1("20. Orden exacto para entregar en Academia")
-    pdf.b("Subir este PDF: docs/Memoria_PFM_ALPRO.pdf. Si el nombre o el correo de Academia son otros, cambiar la portada y volver a generar con python3 docs/generar_memoria_pdf.py.")
-    pdf.b("Pegar el repositorio: " + REPO + " y decir que el código está en la carpeta proyecto final master full stack.")
-    pdf.b("Publicar la app, pegar la URL HTTPS y comprobar que la landing muestra los 16 servicios.")
-    pdf.b("Grabar el vídeo con el apartado 12, subirlo a Drive o YouTube en modo enlace público y pegar la URL.")
-    pdf.b("En el comentario de la entrega escribir: admin / Admin123 y cliente_demo / Cliente123.")
+    pdf.b("Subir este PDF: docs/Memoria_PFM_ALPRO.pdf. Si Academia tiene otro nombre o correo, cambiar la portada y volver a generar.")
+    pdf.b("Pegar el repositorio: " + REPO + ". El código está en la carpeta proyecto final master full stack.")
+    pdf.b("Pegar la aplicación: " + PUBLIC)
+    pdf.b("Pegar el vídeo: " + VIDEO)
+    pdf.b("En el comentario escribir: admin / Admin123 y cliente_demo / Cliente123.")
 
     pdf.output(str(OUT))
     print(OUT)
