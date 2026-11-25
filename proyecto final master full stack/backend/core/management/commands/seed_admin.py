@@ -27,6 +27,24 @@ class Command(BaseCommand):
         else:
             self.stdout.write(self.style.SUCCESS("Superusuario admin actualizado."))
 
-        self.stdout.write(f"Usuario: {username}")
-        self.stdout.write(f"Contrasena: {password}")
-        self.stdout.write("Panel: http://127.0.0.1:8000/admin/")
+        client, client_created = User.objects.get_or_create(
+            username="cliente_demo",
+            defaults={
+                "email": "cliente.demo@alpro.cl",
+                "first_name": "Ana",
+                "last_name": "Perez",
+                "is_staff": False,
+                "is_superuser": False,
+            },
+        )
+        client.email = "cliente.demo@alpro.cl"
+        client.first_name = "Ana"
+        client.last_name = "Perez"
+        client.is_staff = False
+        client.is_superuser = False
+        client.set_password("Cliente123")
+        client.save()
+        if client_created:
+            self.stdout.write(self.style.SUCCESS("Cliente cliente_demo creado."))
+        else:
+            self.stdout.write(self.style.SUCCESS("Cliente cliente_demo actualizado."))
