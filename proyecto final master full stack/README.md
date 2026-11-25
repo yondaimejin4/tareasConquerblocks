@@ -1,6 +1,6 @@
 # ALPRO TECHNOLOGY SPA — Proyecto Final Máster Full Stack
 
-Aplicación web full stack para una empresa de servicios tecnológicos: catálogo de servicios, captación de solicitudes, portal de cliente y panel administrativo.
+Aplicación web full stack para una empresa de servicios tecnológicos: catálogo de servicios, formulario de contacto, portal del cliente y panel administrativo.
 
 **Arranque local:** `./scripts/dev.sh` → [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
@@ -18,14 +18,14 @@ Aplicación web full stack para una empresa de servicios tecnológicos: catálog
 | Base de datos | SQLite (desarrollo) / PostgreSQL (producción) |
 | Frontend | React 19, Vite 8, React Router |
 | Servidor | Django sirve la SPA compilada y la API en el mismo origen |
-| Despliegue | Render (`render.yaml`, `build.sh`, [docs/DEPLOY.md](docs/DEPLOY.md)) |
+| Despliegue | Gratis: PythonAnywhere ([docs/DEPLOY_PYTHONANYWHERE.md](docs/DEPLOY_PYTHONANYWHERE.md)). Alternativa: Render ([docs/DEPLOY.md](docs/DEPLOY.md)) |
 | Pruebas | `python manage.py test core` |
 
 ## Qué resuelve
 
 - El visitante consulta el catálogo real (`GET /api/services/`) y envía una consultoría (`POST /api/contact/`).
-- El cliente entra al portal, crea solicitudes, adjunta ideas o imágenes y ve el estado del proyecto, el pago y los comentarios del equipo.
-- El administrador gestiona usuarios, solicitudes, aportes, estado del proyecto y estado de pago desde Django Admin.
+- El cliente entra al portal, crea solicitudes y ve el estado que marca el administrador.
+- El administrador gestiona usuarios, el catálogo y el estado de cada solicitud desde Django Admin.
 - Admin y portal usan cookies distintas (`sessionid` y `portal_sessionid`), así que ambas sesiones pueden convivir en el mismo navegador.
 
 ## Estructura
@@ -73,17 +73,17 @@ Vite hace proxy de `/api` y `/media` hacia el puerto 8000. Deja `VITE_API_BASE_U
 | POST | `/api/auth/register/` `/login/` `/logout/` | Portal |
 | GET | `/api/auth/me/` | Sesión del portal |
 | GET/POST | `/api/my-requests/` | Solicitudes del cliente autenticado |
-| POST | `/api/my-requests/<id>/contributions/` | Aportes e ideas |
+| GET | `/api/my-requests/<id>/` | Detalle de una solicitud propia |
 
 ## Roles
 
 | Rol | Puede |
 |-----|--------|
 | Visitante | Ver servicios y enviar el formulario de consultoría |
-| Cliente | Iniciar sesión, ver y crear sus solicitudes, enviar aportes |
-| Administrador | Django Admin: usuarios, catálogo, estados, pagos y comentarios visibles al cliente |
+| Cliente | Iniciar sesión, ver y crear sus propias solicitudes |
+| Administrador | Django Admin: usuarios, catálogo y estado de cada solicitud |
 
-En el admin, **Usuarios → Añadir usuario** crea la cuenta del portal. Cada solicitud muestra los aportes del cliente y permite editar el estado del proyecto, el comentario para el cliente y el estado de pago.
+En el admin, **Usuarios → Añadir usuario** crea la cuenta del portal. En cada solicitud se cambia el estado, y el cliente lo ve al recargar.
 
 ## Datos de demostración
 
@@ -113,9 +113,9 @@ python manage.py test core
 
 ## Documentación
 
-Memoria del PFM (PDF con capturas): [docs/Memoria_PFM_ALPRO.pdf](docs/Memoria_PFM_ALPRO.pdf)
-
-Borrador en Markdown: [docs/pfm-memoria.md](docs/pfm-memoria.md)
+- Memoria del PFM: [docs/Memoria_PFM_ALPRO.pdf](docs/Memoria_PFM_ALPRO.pdf)
+- Despliegue gratis (PythonAnywhere): [docs/DEPLOY_PYTHONANYWHERE.md](docs/DEPLOY_PYTHONANYWHERE.md)
+- Vídeo de defensa: [docs/video-defensa-pfm.mp4](docs/video-defensa-pfm.mp4)
 
 Usuarios de prueba: administrador `admin` / `Admin123` · cliente `cliente_demo` / `Cliente123`
 

@@ -63,8 +63,8 @@ Plataforma web **ALPRO TECHNOLOGY SPA** con:
 | Rol | Acciones |
 |-----|----------|
 | **Visitante** | Ver el catalogo en React, enviar el formulario de consultoria |
-| **Cliente** | Registrarse o usar una cuenta creada por el admin, iniciar sesion en `/portal/login`, crear solicitudes, enviar aportes e ideas y consultar estado, pago y comentarios |
-| **Administrador** | Entrar en `/admin/`, crear usuarios cliente, revisar solicitudes y aportes, actualizar estado del proyecto, comentario visible y estado de pago |
+| **Cliente** | Registrarse o usar una cuenta creada por el admin, iniciar sesion en `/portal/login`, crear solicitudes y consultar su estado |
+| **Administrador** | Entrar en `/admin/`, crear usuarios cliente, revisar solicitudes y actualizar el estado del proyecto |
 
 El portal y el admin usan sesiones distintas para que una pestaña de administracion no contamine las solicitudes del cliente.
 
@@ -91,16 +91,16 @@ El portal y el admin usan sesiones distintas para que una pestaña de administra
 ### CU-03: Seguimiento de una solicitud (Cliente)
 
 1. Inicia sesion en `/portal/login`.
-2. Crea una solicitud y, en el detalle, agrega un aporte o una imagen.
+2. Crea una solicitud.
 3. El registro queda asociado solo a su usuario.
 
 **Exito:** la solicitud aparece en "Mis solicitudes". **Error:** sin sesion de portal → 403; solicitud de otro usuario → 404.
 
-### CU-04: Actualizar estado y pago (Administrador)
+### CU-04: Actualizar estado (Administrador)
 
 1. Abre la solicitud en Django Admin.
-2. Cambia el estado del proyecto, escribe el comentario para el cliente y ajusta el estado de pago.
-3. El cliente recarga el detalle y ve esos campos. Las notas internas no se exponen en la API.
+2. Cambia el estado del proyecto.
+3. El cliente recarga el detalle y ve el estado. Las notas internas no se exponen en la API.
 
 ### CU-05: Actualizar catalogo (Administrador)
 
@@ -115,7 +115,7 @@ El portal y el admin usan sesiones distintas para que una pestaña de administra
 |--------|----------------|
 | Autenticacion | `django.contrib.auth` en el admin; cookie `portal_sessionid` en el portal |
 | Aislamiento | Cada cliente solo lee y escribe sus `ContactLead` |
-| Validacion | Serializers DRF en contacto, registro, solicitudes y aportes |
+| Validacion | Serializers DRF en contacto, registro y solicitudes |
 | CSRF | Token en el portal y en el admin; el formulario publico no usa la sesion de staff |
 | XSS | Templates Django con auto-escape; React escapa por defecto |
 | Contrasenas | Hash PBKDF2 (Django) |

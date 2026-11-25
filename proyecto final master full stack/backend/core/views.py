@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .authentication import PortalSessionAuthentication
-from .models import ClientContribution, ContactLead, Service
+from .models import ContactLead, Service
 from .portal_auth import (
     attach_portal_cookie,
     clear_portal_cookie,
@@ -18,9 +18,7 @@ from .portal_auth import (
     portal_logout,
 )
 from .serializers import (
-    ClientContributionSerializer,
     ContactLeadCreateSerializer,
-    ContributionCreateSerializer,
     LoginSerializer,
     ProjectRequestCreateSerializer,
     ProjectRequestListSerializer,
@@ -172,9 +170,7 @@ class MyProjectRequestListCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        queryset = ContactLead.objects.filter(user=request.user).prefetch_related(
-            "contributions"
-        )
+        queryset = ContactLead.objects.filter(user=request.user)
         serializer = ProjectRequestListSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -201,9 +197,7 @@ class MyProjectRequestDetailAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get_object(self, request, pk):
-        return ContactLead.objects.prefetch_related("contributions").get(
-            pk=pk, user=request.user
-        )
+        return ContactLead.objects.get(pk=pk, user=request.user)
 
     def get(self, request, pk):
         try:
@@ -212,27 +206,3 @@ class MyProjectRequestDetailAPIView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = ProjectRequestSerializer(lead, context={"request": request})
         return Response(serializer.data)
-
-
-class MyContributionCreateAPIView(APIView):
-    authentication_classes = [PortalSessionAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, pk):
-        try:
-            lead = ContactLead.objects.get(pk=pk, user=request.user)
-        except ContactLead.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        serializer = ContributionCreateSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        contribution = ClientContribution.objects.create(
-            lead=lead,
-            user=request.user,
-            message=serializer.validated_data["message"],
-            attachment=serializer.validated_data.get("attachment"),
-        )
-        return Response(
-            ClientContributionSerializer(contribution, context={"request": request}).data,
-            status=status.HTTP_201_CREATED,
-        )

@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
-from .models import ClientContribution, ContactLead, Service
+from .models import ContactLead, Service
 
 User = get_user_model()
 
@@ -62,29 +62,8 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
 
-class ClientContributionSerializer(serializers.ModelSerializer):
-    attachment_url = serializers.SerializerMethodField()
-
-    class Meta:
-        model = ClientContribution
-        fields = ["id", "message", "attachment_url", "created_at"]
-
-    def get_attachment_url(self, obj):
-        if obj.attachment:
-            request = self.context.get("request")
-            if request:
-                return request.build_absolute_uri(obj.attachment.url)
-            return obj.attachment.url
-        return None
-
-
 class ProjectRequestSerializer(serializers.ModelSerializer):
     status_label = serializers.CharField(source="get_status_display", read_only=True)
-    payment_status_label = serializers.CharField(
-        source="get_payment_status_display",
-        read_only=True,
-    )
-    contributions = ClientContributionSerializer(many=True, read_only=True)
 
     class Meta:
         model = ContactLead
@@ -96,22 +75,13 @@ class ProjectRequestSerializer(serializers.ModelSerializer):
             "message",
             "status",
             "status_label",
-            "payment_status",
-            "payment_status_label",
-            "pending_summary",
-            "team_comment",
             "created_at",
             "updated_at",
-            "contributions",
         ]
 
 
 class ProjectRequestListSerializer(serializers.ModelSerializer):
     status_label = serializers.CharField(source="get_status_display", read_only=True)
-    payment_status_label = serializers.CharField(
-        source="get_payment_status_display",
-        read_only=True,
-    )
 
     class Meta:
         model = ContactLead
@@ -122,10 +92,6 @@ class ProjectRequestListSerializer(serializers.ModelSerializer):
             "message",
             "status",
             "status_label",
-            "payment_status",
-            "payment_status_label",
-            "pending_summary",
-            "team_comment",
             "created_at",
             "updated_at",
         ]
@@ -135,7 +101,3 @@ class ProjectRequestCreateSerializer(serializers.Serializer):
     company = serializers.CharField(max_length=120, required=False, allow_blank=True)
     message = serializers.CharField()
 
-
-class ContributionCreateSerializer(serializers.Serializer):
-    message = serializers.CharField()
-    attachment = serializers.ImageField(required=False, allow_null=True)

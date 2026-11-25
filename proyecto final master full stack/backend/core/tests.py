@@ -191,7 +191,7 @@ class PortalAPITests(APITestCase):
         self.assertEqual(lead.user_id, client_user.id)
         self.assertNotEqual(lead.user_id, admin.id)
 
-    def test_client_sees_admin_team_comment_and_contributions(self):
+    def test_client_sees_status_updated_by_admin(self):
         portal_force_login(self.client, self.user)
         create = self.client.post(
             reverse("my-requests-list"),
@@ -199,24 +199,15 @@ class PortalAPITests(APITestCase):
             format="json",
         )
         lead_id = create.data["id"]
-        self.client.post(
-            reverse("my-requests-contribution", kwargs={"pk": lead_id}),
-            {"message": "Idea: usar colores corporativos"},
-            format="json",
-        )
         lead = ContactLead.objects.get(pk=lead_id)
         lead.status = ContactLead.Status.IN_PROGRESS
-        lead.payment_status = ContactLead.PaymentStatus.PARTIAL
-        lead.pending_summary = "Falta abono del 50%"
-        lead.team_comment = "Estamos disenando el mockup inicial."
         lead.save()
 
         detail = self.client.get(reverse("my-requests-detail", kwargs={"pk": lead_id}))
         self.assertEqual(detail.status_code, 200)
-        self.assertEqual(detail.data["team_comment"], lead.team_comment)
-        self.assertEqual(detail.data["payment_status"], "partial")
-        self.assertEqual(len(detail.data["contributions"]), 1)
-        self.assertIn("colores corporativos", detail.data["contributions"][0]["message"])
+        self.assertEqual(detail.data["status"], "in_progress")
+        self.assertNotIn("payment_status", detail.data)
+        self.assertNotIn("contributions", detail.data)
 
     def test_admin_created_client_can_login(self):
         """Cuenta creada como en el admin (usuario + contrasena) puede entrar al portal."""

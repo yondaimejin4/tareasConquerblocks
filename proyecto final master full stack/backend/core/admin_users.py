@@ -23,7 +23,6 @@ class UserContactLeadInline(admin.TabularInline):
     readonly_fields = (
         "id",
         "status",
-        "payment_status",
         "company",
         "message_short",
         "updated_at",

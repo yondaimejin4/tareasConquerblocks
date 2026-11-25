@@ -34,12 +34,7 @@ No uses el puerto 5173 salvo que estes desarrollando con `npm run dev`.
 
 ### Gestionar solicitudes del cliente en admin
 
-En **Solicitudes de clientes** veras la solicitud, los **aportes e ideas** del cliente (inline) y podras editar:
-
-- **Lista:** cambia **Estado del proyecto** y **Estado de pago** directamente y pulsa *Guardar* abajo.
-- **Ficha completa:** seccion *Estado del proyecto (visible en portal)* → estado + **Comentario del estado del proyecto**.
-- **Ficha completa:** seccion *Estado de pago (visible en portal)* → estado de pago + **Detalle de pago para el cliente**.
-- **Notas internas:** solo equipo (el cliente no las ve).
+En **Solicitudes de clientes** ves el mensaje y puedes cambiar el **estado**. Las notas internas no las ve el cliente.
 
 Tras guardar, el cliente ve los cambios en `/portal/solicitudes` (recarga el detalle si ya lo tenia abierto).
 

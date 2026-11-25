@@ -111,10 +111,8 @@ def build():
     )
     pdf.p(
         "El visitante ve servicios que salen de la base de datos y puede pedir una "
-        "consultoria. El cliente entra con usuario y contrasena, crea solicitudes "
-        "y aporta ideas o imagenes. El administrador cambia el estado del proyecto, "
-        "el estado de pago y deja un comentario que el cliente ve al recargar. "
-        "No hay pasarela de pago: el pago se registra a mano, que es el alcance del MVP."
+        "consultoria. El cliente entra con usuario y contrasena y crea solicitudes. "
+        "El administrador cambia el estado del proyecto y el cliente lo ve al recargar."
     )
 
     pdf.h1("2. Que se ve en cada pantalla")
@@ -125,10 +123,10 @@ def build():
     pdf.h2("Portal  /portal/login")
     pdf.bullet("Registro e inicio de sesion. Al entrar aparece Bienvenido y el nombre de usuario.")
     pdf.bullet("Mis solicitudes: lista, alta y detalle.")
-    pdf.bullet("En el detalle: estado del proyecto, comentario del equipo, estado de pago y aportes.")
+    pdf.bullet("En el detalle: el mensaje y el estado del proyecto.")
     pdf.h2("Admin  /admin/")
     pdf.bullet("Usuarios: crear cliente con correo y contrasena, y ver sus solicitudes.")
-    pdf.bullet("Solicitudes de clientes: mensaje, aportes, estado, comentario y pago.")
+    pdf.bullet("Solicitudes de clientes: mensaje y estado.")
     pdf.bullet("Servicios: alta, edicion y marca de destacado.")
     pdf.h2("Plantilla Django  /django/")
     pdf.p(
@@ -138,9 +136,8 @@ def build():
 
     pdf.h1("3. Datos: que se guarda y quien lo ve")
     pdf.p(
-        "Hay cuatro conjuntos de datos. User es el usuario de Django. Service es el "
-        "catalogo. ContactLead es la solicitud o lead. ClientContribution es un aporte "
-        "del cliente ligado a una solicitud."
+        "Hay tres conjuntos de datos. User es el usuario de Django. Service es el "
+        "catalogo. ContactLead es la solicitud o lead."
     )
     pdf.h2("Service")
     pdf.p(

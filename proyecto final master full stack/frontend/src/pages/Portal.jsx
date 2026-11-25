@@ -245,17 +245,6 @@ function PortalDashboard({ user }) {
             <span className="badge">{item.status_label}</span>
             <h3>Solicitud #{item.id}</h3>
             <p>{item.message.slice(0, 120)}{item.message.length > 120 ? "..." : ""}</p>
-            <p className="meta-line">
-              Pago: <strong>{item.payment_status_label}</strong>
-            </p>
-            {item.pending_summary && (
-              <p className="pending-alert">{item.pending_summary}</p>
-            )}
-            {item.team_comment && (
-              <p className="team-comment-preview">{item.team_comment.slice(0, 100)}
-                {item.team_comment.length > 100 ? "..." : ""}
-              </p>
-            )}
             <Link to={`/portal/solicitudes/${item.id}`} className="link-btn">
               Ver detalle →
             </Link>
@@ -270,44 +259,18 @@ function PortalRequestDetail() {
   const { id } = useParams();
   const [request, setRequest] = useState(null);
   const [error, setError] = useState("");
-  const [contrib, setContrib] = useState({ message: "", attachment: null });
-  const [sending, setSending] = useState(false);
-
-  const load = async () => {
-    const { response, data } = await apiFetch(`/api/my-requests/${id}/`);
-    if (!response.ok) {
-      setError("Solicitud no encontrada.");
-      return;
-    }
-    setRequest(data);
-  };
 
   useEffect(() => {
+    const load = async () => {
+      const { response, data } = await apiFetch(`/api/my-requests/${id}/`);
+      if (!response.ok) {
+        setError("Solicitud no encontrada.");
+        return;
+      }
+      setRequest(data);
+    };
     load();
   }, [id]);
-
-  const handleContribution = async (event) => {
-    event.preventDefault();
-    setSending(true);
-    await ensureCsrf();
-    const body = new FormData();
-    body.append("message", contrib.message);
-    if (contrib.attachment) {
-      body.append("attachment", contrib.attachment);
-    }
-    const { response } = await apiFetch(`/api/my-requests/${id}/contributions/`, {
-      method: "POST",
-      body,
-    });
-    setSending(false);
-    if (!response.ok) {
-      setError("No se pudo enviar el aporte.");
-      return;
-    }
-    setContrib({ message: "", attachment: null });
-    setError("");
-    await load();
-  };
 
   if (!request && !error) {
     return <p className="muted portal-content">Cargando detalle...</p>;
@@ -337,27 +300,6 @@ function PortalRequestDetail() {
           <p className="muted">
             Ultima actualizacion: {new Date(request.updated_at).toLocaleString("es-CL")}
           </p>
-          <div className="team-comment-box">
-            <h4>Comentario del equipo sobre tu proyecto</h4>
-            {request.team_comment ? (
-              <p>{request.team_comment}</p>
-            ) : (
-              <p className="muted">
-                Aun no hay comentarios. El equipo los publicara cuando revise tu solicitud.
-              </p>
-            )}
-          </div>
-        </article>
-        <article className="card portal-status-card">
-          <h3>Estado de pago</h3>
-          <p className="status-value">
-            <strong>{request.payment_status_label}</strong>
-          </p>
-          {request.pending_summary ? (
-            <p className="pending-alert">{request.pending_summary}</p>
-          ) : (
-            <p className="muted">Sin detalle de pago pendiente.</p>
-          )}
         </article>
       </div>
       <article className="card">
@@ -365,47 +307,7 @@ function PortalRequestDetail() {
         <p>{request.message}</p>
         {request.company && <p className="muted">Empresa: {request.company}</p>}
       </article>
-      <section>
-        <h2>Tus aportes e ideas</h2>
-        <p className="section-intro">
-          Agrega comentarios o una imagen de referencia para tu proyecto.
-        </p>
-        {request.contributions?.length > 0 && (
-          <ul className="contrib-list">
-            {request.contributions.map((item) => (
-              <li key={item.id} className="card">
-                <p>{item.message}</p>
-                {item.attachment_url && (
-                  <a href={item.attachment_url} target="_blank" rel="noreferrer">
-                    Ver imagen adjunta
-                  </a>
-                )}
-                <p className="muted">{new Date(item.created_at).toLocaleString("es-CL")}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-        <form className="form portal-form-block" onSubmit={handleContribution}>
-          <textarea
-            placeholder="Escribe una idea, cambio o comentario..."
-            value={contrib.message}
-            onChange={(e) => setContrib({ ...contrib, message: e.target.value })}
-            required
-            rows={3}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) =>
-              setContrib({ ...contrib, attachment: e.target.files?.[0] || null })
-            }
-          />
-          <button type="submit" className="btn btn-primary" disabled={sending}>
-            {sending ? "Enviando..." : "Agregar aporte"}
-          </button>
-        </form>
-        {error && <p className="error">{error}</p>}
-      </section>
+      {error && <p className="error">{error}</p>}
     </div>
   );
 }
